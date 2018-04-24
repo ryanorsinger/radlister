@@ -1,6 +1,7 @@
 package com.codeup.radlister.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -12,30 +13,34 @@ import javax.annotation.security.PermitAll;
 public class HomeController {
 
     @GetMapping("/")
-    @ResponseBody
     public String home() {
-        return "Welcome Home";
+        return "home";
     }
 
-    @GetMapping("/hello")
-    @ResponseBody
-    public String hello() {
-        return "Howdy from Spring!";
+    @GetMapping("/home")
+    public String welcome() {
+        return "home";
     }
 
     @GetMapping("/about")
-    @ResponseBody
     public String about() {
         return "About this Spring!";
     }
 
-
-    @GetMapping("/hello/{name}")
-    @ResponseBody
-    public String hello(@PathVariable String name) {
-        return "Hi, " + name + "!";
+    @GetMapping("/test/{name}")
+    public String testHello(@PathVariable String name, Model model) {
+        model.addAttribute("name", name);
+        return "hello";
     }
 
+    @GetMapping("/hello/{name}")
+    public String sayHello(@PathVariable String name, Model model) {
+        model.addAttribute("name", name);
+        return "hello";
+    }
+
+    // Keep the @ResponseBody annotation if returning a string or JSON
+    // remove @ResponseBody when the mapping should return a view.
     @GetMapping("/increment/{number}")
     @ResponseBody
     public String increment(@PathVariable int number) {
